@@ -1,0 +1,204 @@
+:root {
+    --header-height: 200px;
+    --header-height-scrolled: 100px;
+}
+
+/* Page */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: rgba(173, 227, 243, 0.719); /* purple: rgb(75, 0, 75), blue: rgb(0, 0, 75), green: rgb(144, 201, 144);*/
+    /*background-color: rgba(144, 201, 144, 0.25);*/
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, p {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+div {
+    background-color: white;
+    border-radius: 2px;
+    padding: 10px;
+}
+
+li {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+}
+
+/* Header */
+header {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: var(--header-height);
+    width: 100%;
+    z-index: 1000;
+    gap: 10px;
+
+    transition: height 0.35s ease;
+}
+
+header .logo {
+    width: fit-content;
+    height: var(--header-height);
+    font-weight: bold;
+    color: rgb(0, 0, 75);
+    padding: 0;
+
+    transform-origin: left center;
+    transform: translateZ(0); /* initial enlarged state */
+
+    transition:
+        height 0.35s ease,
+        transform 0.35s ease;
+}
+
+header .logo img{
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+}
+
+header .sign-in {
+    width: 100%;
+    text-align: right;
+}
+
+/* Page Content */
+main {
+    padding-top: calc(var(--header-height) + 10px);
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    gap: 10px;
+    /*flex-wrap: wrap;*/
+    /*height: 100%;*/
+}
+
+/* Global Container settings */
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 60vh;
+    gap: 10px;
+
+    justify-content: center;  /* horizontal centering */
+    align-items: center;      /* vertical centering */
+}
+
+.container .text-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-self: center;
+    /*justify-content: center;*/
+}
+
+.container .title {
+    opacity: 75%;
+    width: 20%;
+    height: 20%;
+}
+
+/* Top Container */
+#container-top {
+    background-image: url(pexels-marcus-aurelius-6787787.jpg);
+    display: flex;
+    justify-content: space-between; /* left ↔ right */
+    align-items: flex-start;
+    background-size: cover;
+    background-position: center;
+}
+
+#container-top .title {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    align-self: flex-end; /* push to bottom */
+    padding: 10px;
+}
+
+#container-top .text-container {
+    opacity: 50%;
+    width: 30%;
+    height: 80%;
+}
+
+/* Services */
+.container-service {
+    width: 45%;
+}
+
+#container-services {
+    flex-flow: row wrap;
+}
+
+#container-services .title {
+    height: 10%;
+    width: 100%;
+    justify-items: center;
+}
+
+#container-services .text-container {
+    width: 95%;
+    display: flex;
+    flex-flow: row wrap;
+    border: 7.5px solid rgb(144, 201, 144);
+}
+
+#container-services img {
+    align-self: center;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    min-width: 25px;
+    min-height: 25px;
+
+    width: 10%;
+    height: 10%;
+
+    max-width: 35px;
+    max-height: 35px;
+
+    object-fit: contain;
+}
+
+#container-services .text-container h2 {
+    width: auto;
+}
+
+#container-services .text-container p {
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+/* Animation */
+/* SCROLLED STATE */
+body.scrolled header .logo {
+    transform: scale(1); /* back to normal */
+}
+
+body.scrolled {
+    --header-height: var(--header-height-scrolled);
+}

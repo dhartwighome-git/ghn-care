@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Majas GHN Care - Nachbarschaftshilfe - Für Dich da!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script>
+        const SCROLL_THRESHOLD = 50;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > SCROLL_THRESHOLD) {
+            document.body.classList.add('scrolled');
+            } else {
+            document.body.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <header>
+        <!--Logo & Links-->
+        <div class="logo"><img src="Logo10.png"></div>
+        <div class="sign-in">Einloggen</div>
+    </header>
+
+    <main>
+        <div class="container" id="container-top">
+
+            <div class="text-container">
+                <h2>Mein Leitbild</h2>
+                <p>Ich möchte Dich im Alltag begleiten.</p>
+            </div>
+
+            <div class="title">
+                <h1>Zeit für Dich!</h1>
+            </div>
+
+        </div>
+
+        <div class="container" id="container-services">
+
+            <div class="title">
+                <h1>Meine Dienstleistungen</h1>
+            </div>
+
+            <div class="container-service" id="service1">
+                <div class="text-container">
+                    <!--Gespräche und Gesellschaft: Musik-->
+                    <img src="icons/partner_heart.png">
+                    <h2>Gespräche</h2>
+                    <p>Du hast etwas auf dem Herzen und es drückt der Schuh? Ich bin Dein Ansprechpartner und habe immer ein offenes Ohr für Dich.</p>
+                </div>
+            </div>
+
+            <div class="container-service" id="service2">
+                <div class="text-container">
+                    <img src="icons/car_shuttle.png">
+                    <h2>Fahrdienst</h2>
+                    <p>Du bist nicht mehr so gut zu Fuß oder das Taxi ist zu teuer? Das ist kein Problem. Ich begleite Dich zu Deinen Terminen und helfe Dir mit Deinem Einkauf.</p>
+                </div>
+            </div>
+            
+            <div class="container-service" id="service3">
+                <div class="text-container">
+                    <img src="icons/forest.png">
+                    <h2>Ausflüge</h2>
+                    <p>Du möchtest an die frische Luft oder warst schon länger nicht mehr im Tierpark? Gemeinsam können wir etwas unternehmen.</p>
+                </div>
+            </div>
+
+            <div class="container-service" id="service4">
+                <div class="text-container">
+                    <img src="icons/cleaning_bottle.png">
+                    <h2>Haushalt</h2>
+                    <p>Das Geschirr stapelt sich oder Du möchtest gerne etwas essen? Ich erledige grundlegende Arbeiten in der Küche wie eine fleißige 🐝.</p>
+                </div>
+            </div>
+            <!--uvm.-->
+        </div>
+
+        <div class="container" id="container-about-me">
+
+        </div>
+
+        <div class="container" id="container-testimonials">
+
+        </div>
+
+        <div class="container" id="container-video">
+
+        </div>
+
+        <div class="container" id="container-contact">
+
+        </div>
+    </main>
+
+    <footer>
+        <!--Impressum-->
+        <div class="copyright">
+            © Maja Mc Clellan 2026
+        </div>
+
+    </footer>
+    
+</body>
+</html>
