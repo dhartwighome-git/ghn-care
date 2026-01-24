@@ -7,7 +7,69 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBv7_fz-X9GtsuTNu-yII4d72So6F24eDk",
+            authDomain: "ghn-care.firebaseapp.com",
+            projectId: "ghn-care",
+            storageBucket: "ghn-care.firebasestorage.app",
+            messagingSenderId: "1037138646761",
+            appId: "1:1037138646761:web:356baadc89cd4cb1250278"
+            };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const form = document.getElementById("login-form");
+        const errorEl = document.getElementById("login-error");
+        const emailEl = document.getElementById("user-email");
+        const logoutBtn = document.getElementById("logout-btn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                form.reset();
+            } catch (err) {
+                errorEl.textContent = err.message;
+            }
+        });
+
+        logoutBtn.addEventListener("click", async () => {
+            await signOut(auth);
+        });
+
+        // Protect page
+        onAuthStateChanged(auth, (user) => {
+            const isLoggedIn = !!user;
+
+            document.body.classList.toggle("logged-in", isLoggedIn);
+            document.body.classList.toggle("logged-out", !isLoggedIn);
+
+            if (isLoggedIn) {
+                emailEl.textContent = `Logged in as: ${user.email}`;
+            }
+        });
+
+        // Optional globals
+        window.app = app;
+        window.auth = auth;
+        
+        // Header animation
         const SCROLL_THRESHOLD = 50;
 
         window.addEventListener('scroll', () => {
@@ -17,12 +79,116 @@
             document.body.classList.remove('scrolled');
             }
         });
+
+        // Fill reviews container
+        const reviewsContainer = document.getElementById("text-container-reviews");
+
+        // Fetch reviews
+        const reviews = getReviews();
+        console.log(reviews)
+
+        async function getReviews() {
+            const snapshot = await getDocs(collection(db, "reviews"));
+
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const reviewBox = createReviewBox(data);
+                reviewsContainer.appendChild(reviewBox);
+            })
+        }
+
+        function createReviewBox(data) {
+            // Fill reviews container
+            /* Data:
+                - gender*
+                - firstName*
+                - lastName*
+                - email*
+                - birthday*
+                - title*
+                - message*
+            */
+            const box = document.createElement("div");
+            box.className = "text-container";
+
+            // Title
+            const reviewTitle = document.createElement("h3");
+            reviewTitle.className = "review-title"
+            reviewTitle.textContent = data.reviewTitle || "";
+
+            const message = document.createElement("p");
+            message.className = "review-message";
+            message.textContent = data.message || "";
+
+            // Person: "Herr H. Grafen, 70 J."
+            const person = document.createElement("p");
+            person.className = "review-person";
+
+            // Title
+            const personTitle = data.personTitle ?? "";
+
+            // First Name
+            const firstInitial = data.firstName?.[0] ?? "";
+
+            // Last Name
+            const lastName = data.lastName ?? "";
+
+            // Age
+            const age = calculateAge(data.birthday);
+            const ageText = Number.isInteger(age) ? ` ${age} J.` : "";
+
+            person.textContent = `${personTitle} ${firstInitial}. ${lastName}, ${ageText}`.trim();
+
+            box.append(reviewTitle, message, person);
+            return box;
+        }
+
+        function calculateAge(birthday) {
+            let birthDate;
+
+            if (!birthday) return null;
+
+            // Firestore Timestamp
+            if (birthday.toDate) {
+                birthDate = birthday.toDate();
+            }
+            // String or Date
+            else {
+                birthDate = new Date(birthday);
+            }
+
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+
+            const hasHadBirthdayThisYear =
+                today.getMonth() > birthDate.getMonth() ||
+                (today.getMonth() === birthDate.getMonth() &&
+                today.getDate() >= birthDate.getDate());
+
+            if (!hasHadBirthdayThisYear) {
+                age--;
+            }
+
+            return age;
+        }
+
     </script>
 
     <header>
         <!--Logo & Links-->
         <div class="logo"><img src="Logo10.png"></div>
-        <div class="sign-in">Einloggen</div>
+        <div class="sign-in">
+            <form id="login-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+                <p id="login-error"></p>
+            </form>
+            <div id="auth-status" class="auth protected flex">
+                <span id="user-email"></span>
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
     </header>
 
     <main>
@@ -50,7 +216,7 @@
                     <!--Gespräche und Gesellschaft: Musik-->
                     <img src="Icons/partner_heart.png">
                     <h2>Gespräche</h2>
-                    <p>Du hast etwas auf dem Herzen und es drückt der Schuh? Ich bin Dein Ansprechpartner und habe immer ein offenes Ohr für Dich.</p>
+                    <p>Du hast etwas auf dem Herzen? Ich bin Dein Ansprechpartner und habe immer ein offenes Ohr für Dich.</p>
                 </div>
             </div>
 
@@ -74,7 +240,7 @@
                 <div class="text-container">
                     <img src="Icons/cleaning_bottle.png">
                     <h2>Haushalt</h2>
-                    <p>Das Geschirr stapelt sich oder Du möchtest gerne etwas essen? Ich erledige grundlegende Arbeiten in der Küche wie eine fleißige 🐝.</p>
+                    <p>Das Geschirr stapelt sich oder Du möchtest gerne etwas essen? Ich erledige grundlegende Arbeiten wie eine fleißige 🐝.</p>
                 </div>
             </div>
             <!--uvm.-->
@@ -82,17 +248,43 @@
 
         <div class="container" id="container-about-me">
 
+            <img src="Maja_Photo.JPG" class="protected">
+
+            <div class="text-container">
+                <h1>Über mich</h2>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+            </div>
+
         </div>
 
-        <div class="container" id="container-testimonials">
+        <div class="container" id="container-reviews">
+            <div class="title">
+                <h1>Bewertungen</h1>
+            </div>
+
+            <div id="text-container-reviews">
+                <!--Insert from database HERE-->
+            </div>
+
+            <!--To do: New review form-->
 
         </div>
 
         <div class="container" id="container-video">
+            <div class="title">
+                <h1>Meine Arbeit</h1>
+            </div>
+
+            <!--Video-->
 
         </div>
 
         <div class="container" id="container-contact">
+            <div class="title">
+                <h1>Kontakt</h1>
+            </div>
+
+            <!--Contact form-->
 
         </div>
     </main>
@@ -106,5 +298,4 @@
     </footer>
     
 </body>
-
 </html>
