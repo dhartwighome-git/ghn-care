@@ -1,5 +1,12 @@
+@media screen and (max-width: 767px) {
+    :root { --header-height: 150px; }
+}
+
+@media screen and (min-width: 767px) {
+    :root { --header-height: 200px; }
+}
+
 :root {
-    --header-height: 200px;
     --header-height-scrolled: 100px;
 }
 
@@ -37,13 +44,23 @@ li {
 }
 
 /* Header */
+@media screen and (max-width: 650px) { 
+    header { display: block; }
+}
+
+/* ensure img and .sign-in fit in line (min. 650px) */
+@media screen and (min-width: 650px) { 
+    header { display: flex; }
+}
+
 header {
-    display: flex;
-    flex-direction: row;
     position: fixed;
     top: 0;
     left: 0;
     height: var(--header-height);
+    align-items: center;
+    background-color: white;
+    border-radius: 5px;
     width: 100%;
     z-index: 1000;
     gap: 10px;
@@ -74,7 +91,19 @@ header .logo img{
 
 header .sign-in {
     width: 100%;
-    text-align: right;
+    padding: 0;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+header .sign-in input {
+    max-width: 40%;
+}
+
+header .sign-in #auth-status {
+    justify-content: end;
+    padding: 0;
 }
 
 /* Page Content */
@@ -137,7 +166,15 @@ main {
     align-items: flex-end;
 
     align-self: flex-end; /* push to bottom */
-    padding: 10px;
+    width: auto;
+    height: auto;
+    padding: 25px;
+    margin: 5px;
+}
+
+#container-top .title h1 {
+    padding: 0;
+    margin: 0;
 }
 
 #container-top .text-container {
@@ -198,12 +235,38 @@ main {
     width: 100%;
 }
 
+/* About me */
+#container-about-me {
+    flex-direction: column;
+}
+
+@media screen and (max-width: 767px) {
+    #container-about-me .text-container { flex-direction: column; }
+    #container-about-me img { max-width: 90%; }
+}
+
+@media screen and (min-width: 767px) {
+    #container-about-me .text-container { flex-direction: row; }
+    #container-about-me img {
+        max-width: 20%;
+        max-height: 80%;
+    }
+}
+
+#container-about-me .text-container {
+    display: flex;
+    align-content: center;
+}
+
 #container-about-me img {
-    max-width: 20%;
-    max-height: 80%;
     object-fit: contain;
     border-radius: 5px;
     margin: 50px;
+}
+
+#container-about-me p {
+    width: 100%;
+    align-content: center;
 }
 
 /* Reviews */
