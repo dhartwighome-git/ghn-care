@@ -35,6 +35,7 @@
         const emailEl = document.getElementById("user-email");
         const logoutBtn = document.getElementById("logout-btn");
 
+        // Log in
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -49,6 +50,7 @@
             }
         });
 
+        // Log out
         logoutBtn.addEventListener("click", async () => {
             await signOut(auth);
         });
@@ -71,7 +73,6 @@
         
         // Header animation
         const SCROLL_THRESHOLD = 50;
-
         window.addEventListener('scroll', () => {
             if (window.scrollY > SCROLL_THRESHOLD) {
             document.body.classList.add('scrolled');
@@ -85,8 +86,6 @@
 
         // Fetch reviews
         const reviews = getReviews();
-        console.log(reviews)
-
         async function getReviews() {
             const snapshot = await getDocs(collection(db, "reviews"));
 
@@ -97,6 +96,7 @@
             })
         }
 
+        // Display reviews
         function createReviewBox(data) {
             // Fill reviews container
             /* Data:
@@ -143,6 +143,7 @@
             return box;
         }
 
+        // Helper function
         function calculateAge(birthday) {
             let birthDate;
 
@@ -176,7 +177,7 @@
 
     <header>
         <!--Logo & Links-->
-        <div class="logo"><img src="Logo10.png"></div>
+        <div class="logo"><img src="Logo13.png"></div>
         <div class="sign-in">
             <form id="login-form">
                 <input type="email" id="email" placeholder="Email" required>
@@ -211,11 +212,13 @@
                 <h1>Meine Dienstleistungen</h1>
             </div>
 
+            <!--To do: Pfeil-Buttons und Hintergrundbilder hinzufügen-->
             <div class="container-service" id="service1">
                 <div class="text-container">
                     <!--Gespräche und Gesellschaft: Musik-->
                     <img src="Icons/partner_heart.png">
                     <h2>Gespräche</h2>
+                    <!--Pfeil-Button-->
                     <p>Du hast etwas auf dem Herzen? Ich bin Dein Ansprechpartner und habe immer ein offenes Ohr für Dich.</p>
                 </div>
             </div>
@@ -243,7 +246,9 @@
                     <p>Das Geschirr stapelt sich oder Du möchtest gerne etwas essen? Ich erledige grundlegende Arbeiten wie eine fleißige 🐝.</p>
                 </div>
             </div>
-            <!--uvm.-->
+
+            <!--Neuer Container: "Wöchnerin"-->
+            
         </div>
 
         <div class="container" id="container-about-me">
@@ -262,11 +267,12 @@
 
         <div class="container" id="container-reviews">
             <div class="title">
-                <h1>Bewertungen</h1>
+                <!--Statt "Bewertungen"-->
+                <h1>Das sagen Kunden über mich</h1>
             </div>
 
             <div id="text-container-reviews">
-                <!--Insert from database HERE-->
+                <!--Insert from database HERE, using Google Business API-->
             </div>
 
             <!--To do: New review form-->
@@ -280,14 +286,22 @@
 
             <!--Video-->
             <div class="video-container">
+                <video controls>
+                    <source src="videos/Heinrich.mp4"
+                </video>
                 
             </div>
+            <div class="text-container">
+                <p>Heinrich Grafen</p>
+            </div>
+            
 
         </div>
 
         <div class="container" id="container-contact">
             <div class="title">
-                <h1>Kontakt</h1>
+                <h1>Melde dich</h1>
+                <!--<p>für ein kostenloses Erstgespräch</p>-->
             </div>
 
             <!--Contact form-->
