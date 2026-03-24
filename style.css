@@ -128,6 +128,8 @@ main {
     max-width: 1000px;
     min-height: 60vh;
     gap: 10px;
+    margin: 0 auto;              /* 👈 centers horizontally */
+    padding: 0 10px;
 
     justify-content: center;  /* horizontal centering */
     align-items: center;      /* vertical centering */
